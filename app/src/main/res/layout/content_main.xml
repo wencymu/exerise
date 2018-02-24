@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_main"
@@ -9,6 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.wency.android.exerise.MainActivity"
     tools:showIn="@layout/app_bar_main">
@@ -17,4 +18,53 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!" />
-</RelativeLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="single_instance"
+        android:background="@drawable/bg_button"
+        android:id="@+id/button"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="ViewStub_inflate_1"
+            android:background="@drawable/bg_button"
+            android:id="@+id/button2"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="ViewStub_inflate_2"
+            android:background="@drawable/bg_button"
+            android:id="@+id/button3"/>
+
+        <ViewStub
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/inflate_view"
+            android:inflatedId="@+id/inflated_id"
+            android:layout="@layout/inflate_layout"/>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/webview"
+        android:layout_marginTop="10dp"
+        android:text="WebView"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/reference"
+        android:layout_marginTop="10dp"
+        android:text="四大引用"/>
+
+</LinearLayout>

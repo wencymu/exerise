@@ -2,24 +2,105 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
+
+    //defaultConfig中内容均可在productFlavors中重新配置
+    // defaultConfig 实际上属于 ProductFlavor 类
     defaultConfig {
         applicationId "com.wency.android.exerise"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+
+    //签名的配置
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            storeFile file("exerise.jks")
+            storePassword 'exerise'
+            keyAlias 'exerise'
+            keyPassword 'exerise'
+        }
+        debug {
+            storeFile file("exerise.jks")
+            storePassword 'exerise'
+            keyAlias 'exerise'
+            keyPassword 'exerise'
         }
     }
+
+    buildTypes {
+        debug {
+            manifestPlaceholders.put("CHANNEL_VALUE", "debug")
+        }
+
+        release {
+            minifyEnabled false
+            manifestPlaceholders.put("CHANNEL_VALUE", "release")
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            // 自定义输出配置
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "exerise_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                }
+            }
+//            applicationVariants.all { variant ->
+//                variant.outputs.each { output ->
+//                    def outputFile = output.outputFile
+//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                        // 输出apk名称为exerise_v1.0_xiaomi.apk
+//                        def fileName = "exerise_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+//                        output.outputFile = new File(outputFile.parent, fileName)
+//                    }
+//                }
+//            }
+        }
+    }
+
+    //风味维度,组合多个productFlavors中的配置
+    flavorDimensions("mode", "api")
+
+    //支持与 defaultConfig 相同的属性
+    productFlavors {
+        xiaomi {
+            dimension "mode"
+            applicationIdSuffix ".xiaomi"
+            manifestPlaceholders.put("CHANNEL_VALUE", "xiaomi")
+        }
+        huawei {
+            dimension "mode"
+            applicationIdSuffix ".huawei"
+            manifestPlaceholders.put("CHANNEL_VALUE", "huawei")
+        }
+        minApi24 {
+            dimension "api"
+            minSdkVersion '24'
+        }
+        minApi21 {
+            dimension "api"
+            minSdkVersion '21'
+        }
+
+    }
+    //以上配置完成会产生8个变体，在build variant中可进行切换选择
+
+    //过滤,被过滤的变体在build-build variant中不显示
+    //以下配置后，含有minApi21的变体被过滤
+    //特定需求下可能需要
+//    variantFilter {variant->
+//        def names = variant.flavors*.name
+//        if (names.contains("minApi21")){
+//            setIgnore(true)
+//        }
+//
+//    }
 }
 
 dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -27,4 +108,12 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
