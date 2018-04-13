@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.wency.android.exerise.view.Main3Activity">
+    tools:context="com.wency.android.exerise.Main3Activity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -34,6 +34,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:text="goto_single" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

@@ -1,7 +1,18 @@
 package com.wency.android.exerise;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -20,9 +31,8 @@ import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.wency.android.exerise.view.Main3Activity;
+import java.util.LinkedHashSet;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -58,7 +68,13 @@ public class MainActivity extends AppCompatActivity
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, Main3Activity.class));
+//                Dialog dialog=new Dialog(MainActivity.this);
+//                dialog.show();
+//                b().start();
+//                a().start();
+
+//                startActivity(new Intent(MainActivity.this, Main3Activity.class));
+                startActivity(new Intent(MainActivity.this, PDDActivity.class));
             }
         });
 
@@ -101,7 +117,175 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
+//        BaseTest test=new Test();
+//        test.show();
+//        test.show_static();
+
+
+//        IntentService
+//        AsyncTask asyncTask;
+//        asyncTask.execute()
+
+        TextView textView=new TextView(this);
+        textView.setText("");
+
+        NotificationManager manager= (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Notification noti = new Notification.Builder(this)
+                .setContentTitle("New mail from " + "exercise main")
+                .setContentText("aaaaaaa")
+                .setSmallIcon(R.drawable.ic_menu_camera)
+                .build();
+
+        manager.notify(1,noti);
+
+        LinkedHashSet set=new LinkedHashSet();
+
+//        int[] a=new int[]{2,7,9,11,19};
+//        int[] b=new int[]{1,2,3,4,5,6,7,8,9};
+//        int Length_M=a.length;
+//        int Length_N=b.length;
+//        int i=0;
+//        int j=0;
+//        while (i<Length_M&&j<Length_N){
+//            if (a[i]<b[j]){
+//                i++;
+//            }else if (a[i]>b[j]){
+//                j++;
+//            }else if (a[i]==b[j]){
+//                Log.i("same_num","a"+i+":"+a[i]+"=="+"b"+j+":"+b[j]);
+//                i++;
+//                j++;
+//            }
+//        }
+
+//        IntentService
+//        Exception
+
+        int aa=0;
+        try {
+            aa=1;
+            Log.i("aa==try",aa+"");
+        }finally {
+            aa=2;
+            Log.i("aa== finally",aa+"");
+        }
+        Log.i("aa==",aa+"");
+
         Log.i(TAG, "onCreate");
+        final MyBC myBC=new MyBC(2);
+        myBC.setA(7);
+        Log.i("myBC.a==",myBC.getA()+"");
+
+//        Thread thread=new Thread();
+//        thread.setPriority(20);
+    }
+
+
+    public class MyBC {
+        int a;
+
+        public int getA() {
+            return a;
+        }
+
+        public void setA(int a) {
+            this.a = a;
+        }
+
+        public MyBC(int a) {
+            this.a = a;
+        }
+    }
+
+    final public  class MyClass{
+        public int a;
+        public MyClass() {
+            this(0);
+        }
+
+        public MyClass(int a) {
+
+            this.a = a;
+        }
+    }
+
+    private MyHandler myHandler;
+    private HisHandler hisHandler;
+
+    public Thread a(){
+        return new Thread("one"){
+            @Override
+            public void run() {
+                Looper.prepare();
+                myHandler=new MyHandler(Looper.myLooper());
+                Looper.loop();
+
+                Log.i("handleMessage","发送消息");
+                hisHandler.sendEmptyMessage(0);
+            }
+        };
+    }
+
+    public Thread b(){
+       return new Thread("two"){
+            @Override
+            public void run() {
+                Looper.prepare();
+                hisHandler=new HisHandler(Looper.myLooper());
+                Looper.loop();
+
+//                myHandler.sendEmptyMessage(0);
+            }
+        };
+    }
+
+    private class MyHandler extends Handler
+    {
+        public MyHandler(Looper looper) {
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+            switch(msg.what)
+            {
+                case 0 ://在收到消息时，对界面进行更新
+                    Log.i("handleMessage","MyHandler");
+                    break;
+            }
+        }
+    }
+    private class HisHandler extends Handler
+    {
+        public HisHandler(Looper looper) {
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+            switch(msg.what)
+            {
+                case 0 ://在收到消息时，对界面进行更新
+                    Log.i("handleMessage","HisHandler");
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        Log.i(TAG, "onSaveInstanceState");
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.i(TAG, "onRestoreInstanceState");
     }
 
     @Override

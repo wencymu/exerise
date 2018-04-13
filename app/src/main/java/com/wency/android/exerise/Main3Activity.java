@@ -1,4 +1,4 @@
-package com.wency.android.exerise.view;
+package com.wency.android.exerise;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -18,10 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.TextView;
-
-import com.wency.android.exerise.MainActivity;
-import com.wency.android.exerise.R;
 
 public class Main3Activity extends AppCompatActivity {
     private String TAG="Main3Activity";
@@ -67,6 +65,13 @@ public class Main3Activity extends AppCompatActivity {
         });
 
 
+        Button button= (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Main3Activity.this,SongleTopActivity.class));
+            }
+        });
         Log.i(TAG,"onCreate");
     }
 
@@ -166,6 +171,7 @@ public class Main3Activity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_main3, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+
             return rootView;
         }
     }

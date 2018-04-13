@@ -24,12 +24,15 @@
         </activity>
         <activity android:name=".KotlinActivity" />
         <activity
-            android:name=".view.Main3Activity"
+            android:name=".Main3Activity"
             android:label="@string/title_activity_main3"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ReferenceActivity" />
-        <activity android:name=".WebViewActivity"></activity>
+        <activity android:name=".WebViewActivity" />
+        <activity android:name=".VLayoutActivity" />
+        <activity android:name=".SongleTopActivity" />
+        <activity android:name=".PDDActivity"></activity>
     </application>
 
 </manifest>
